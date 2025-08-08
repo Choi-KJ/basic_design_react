@@ -13,7 +13,55 @@
 
 ### 2025-08-07 (확장 작업 & 기본 디자인 틀 완성)
 
-#### 1. 새 컴포넌트 생성
+### 2025-08-08 (고급 인터랙션 기능 추가)
+
+#### 1. 롤링 히어로 컴포넌트 구현
+- ✅ **Hero 컴포넌트 롤링 기능 추가** (`src/components/Hero.js`)
+  - 좌우 네비게이션 버튼 (화살표 아이콘)
+  - 자동 재생 기능 (`autoPlay`, `autoPlayInterval`)
+  - 호버 시 일시정지 기능
+  - 하단 인디케이터 (점 표시)
+  - 완전한 3D 트랜지션 애니메이션 (0.5s ease-in-out)
+  - 기존 단일 히어로와 100% 호환성 유지
+
+#### 2. 카드 뒤집기(Flip) 기능 구현
+- ✅ **Card 컴포넌트 Flip 기능 추가** (`src/components/Card.js`)
+  - 3D 회전 애니메이션 (`rotateY(180deg)`, `perspective: 1000px`)
+  - 클릭으로 앞면/뒷면 전환
+  - `backfaceVisibility: hidden` 처리
+  - 커스텀 뒷면 콘텐츠 지원 (`backContent` prop)
+  - 최소 높이 350px 보장으로 콘텐츠 표시 최적화
+
+#### 3. 상세보기 버튼 시스템
+- ✅ **Flip 카드 상세보기 버튼** (DemoPage 예제)
+  - 이벤트 버블링 방지로 카드 뒤집기와 분리
+  - 각 카드별 고유 그라디언트 색상
+  - 호버 효과 (translateY + boxShadow)
+  - `e.stopPropagation()`으로 독립적인 클릭 이벤트
+
+#### 4. DemoPage 예제 확장
+- ✅ **롤링 히어로 예제 추가**
+  - 자동재생 버전 (4초 간격, 3개 슬라이드)
+  - 수동 조작 버전 (네비게이션/인디케이터만)
+  - 각 슬라이드별 개별 설정 (variant, backgroundImage, badge 등)
+
+- ✅ **Flip 카드 예제 추가**
+  - 혁신 기술 카드 (AI/ML 배지 포함)
+  - 데이터 분석 카드 (힌트 박스 포함)
+  - 팀 협업 카드 (기능 리스트 포함)
+  - 각 카드별 상세보기 버튼 (독립적인 클릭 이벤트)
+
+#### 5. 기술적 개선 사항
+- ✅ **이미지 URL 안정화**
+  - Unsplash API 사용으로 고품질 이미지 제공
+  - 플레이스홀더 서비스 대체로 로딩 안정성 확보
+
+- ✅ **애니메이션 최적화**
+  - CSS `transform` 기반 GPU 가속 애니메이션
+  - `ease-in-out` 커브로 자연스러운 움직임
+  - `backface-visibility: hidden` 처리로 깜빡임 방지
+
+#### 5. 새 컴포넌트 생성 (기존)
 - ✅ **Badge 컴포넌트** (`src/components/Badge.js`)
   - 7가지 variants: `default`, `primary`, `success`, `warning`, `error`, `info`, `outline`
   - 3가지 크기: `sm` (20px), `md` (24px), `lg` (28px)
@@ -118,6 +166,55 @@ src/
 
 ## 컴포넌트 사용법
 
+### 롤링 히어로
+```jsx
+// 자동재생 롤링 히어로
+<Hero
+  slides={[
+    {
+      variant: "gradient",
+      badge: "New",
+      title: "슬라이드 1",
+      subtitle: "첫 번째 슬라이드 내용",
+      primaryAction: "버튼 1"
+    },
+    {
+      variant: "image", 
+      backgroundImage: "이미지URL",
+      title: "슬라이드 2"
+    }
+  ]}
+  autoPlay={true}
+  autoPlayInterval={4000}
+  showNavigation={true}
+  showIndicators={true}
+/>
+```
+
+### Flip 카드
+```jsx
+// 뒤집기 가능한 카드
+<Card
+  flipCard={true}
+  image="이미지URL"
+  backContent={
+    <div>
+      <h3>뒷면 제목</h3>
+      <p>뒷면 상세 내용</p>
+    </div>
+  }
+>
+  <h3>앞면 제목</h3>
+  <p>앞면 내용</p>
+  <button onClick={(e) => {
+    e.stopPropagation();
+    // 상세페이지 이동 로직
+  }}>
+    상세보기
+  </button>
+</Card>
+```
+
 ### Badge
 ```jsx
 <Badge variant="primary">New</Badge>
@@ -201,9 +298,11 @@ npm run build # 프로덕션 빌드
 
 ### 🚀 **현재 상태**
 - **16개 완성된 컴포넌트** (Badge, Carousel, Hero, Navbar, Footer 등)
+- **고급 인터랙션 기능** (롤링 히어로, Flip 카드, 상세보기 버튼)
 - **완전 반응형** 디자인 (모바일 퍼스트)
 - **Linear 디자인 시스템** 100% 준수
 - **포트폴리오급 UI/UX** 완성도
+- **3D 애니메이션** 및 고급 트랜지션 효과
 
 ## 개발 노트
 - 모든 컴포넌트는 props로 완전 커스터마이징 가능
@@ -215,6 +314,26 @@ npm run build # 프로덕션 빌드
 - **React Portal 활용** 레이아웃 문제 해결
 
 ---
-*마지막 업데이트: 2025-08-07*  
-*상태: ✅ **기본 디자인 틀 완성** - 프로덕션 준비 완료*  
+*마지막 업데이트: 2025-08-08*  
+*상태: ✅ **고급 인터랙션 기능 완성** - 엔터프라이즈급 컴포넌트 라이브러리*  
 *Claude Code로 작업함*
+
+### 2025-08-08 추가 작업 상세
+
+#### 🎯 **주요 성과**
+1. **롤링 히어로 시스템**
+   - 완전한 슬라이드쇼 기능 (자동재생/수동조작)
+   - 부드러운 3D 트랜지션과 호버 인터랙션
+   - 네비게이션/인디케이터 UI 완비
+
+2. **Flip 카드 시스템**
+   - CSS 3D Transform 기반 카드 뒤집기 
+   - 이벤트 분리로 상세보기 버튼과 독립 작동
+   - 풍부한 뒷면 콘텐츠 표현 (배지, 리스트, 힌트박스)
+
+3. **사용자 경험 향상**
+   - 직관적인 인터랙션 패턴
+   - 접근성을 고려한 버튼 디자인
+   - GPU 가속 애니메이션으로 60fps 부드러움
+
+이제 **React 컴포넌트 라이브러리**가 엔터프라이즈급 기능을 완비하여 실제 프로덕션 환경에서 활용 가능한 수준에 도달했습니다.
