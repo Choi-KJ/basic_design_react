@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(npm start)",
+      "Bash(curl:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": []
   }

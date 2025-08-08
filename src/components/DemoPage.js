@@ -68,6 +68,86 @@ const DemoPage = () => (
             />
           </div>
         </div>
+
+        {/* Rolling Hero with Auto-play */}
+        <div>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Rolling Hero (Auto-play)</h3>
+          <div style={{ width: "100%" }}>
+            <Hero
+              slides={[
+                {
+                  variant: "gradient",
+                  badge: "New",
+                  title: "Slide 1: Innovation First",
+                  subtitle: "Experience cutting-edge technology that transforms how you work and create.",
+                  primaryAction: "Explore Features",
+                  secondaryAction: "Learn More"
+                },
+                {
+                  variant: "image",
+                  backgroundImage: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&h=600&fit=crop&auto=format",
+                  badge: <Badge variant="primary">Popular</Badge>,
+                  title: "Slide 2: Built for Teams",
+                  subtitle: "Collaborate seamlessly with powerful tools designed for modern workflows.",
+                  primaryAction: "Start Team Trial",
+                  secondaryAction: "See Demo"
+                },
+                {
+                  variant: "default",
+                  badge: <Badge variant="success" size="sm">Trusted</Badge>,
+                  title: "Slide 3: Scale with Confidence",
+                  subtitle: "From startup to enterprise, our platform grows with your business needs.",
+                  primaryAction: "Get Started",
+                  secondaryAction: "Contact Sales"
+                }
+              ]}
+              autoPlay={true}
+              autoPlayInterval={4000}
+              showNavigation={true}
+              showIndicators={true}
+              minHeight="500px"
+            />
+          </div>
+        </div>
+
+        {/* Rolling Hero with Manual Controls */}
+        <div>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Rolling Hero (Manual Only)</h3>
+          <div style={{ width: "100%" }}>
+            <Hero
+              slides={[
+                {
+                  variant: "image",
+                  backgroundImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=600&fit=crop&auto=format",
+                  title: "Analytics Dashboard",
+                  subtitle: "Track performance and make data-driven decisions with real-time insights.",
+                  primaryAction: "View Dashboard"
+                },
+                {
+                  variant: "image", 
+                  backgroundImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop&auto=format",
+                  badge: "AI Powered",
+                  title: "Smart Automation",
+                  subtitle: "Let AI handle the routine tasks while you focus on what matters most.",
+                  primaryAction: "Enable AI",
+                  secondaryAction: "Learn How"
+                },
+                {
+                  variant: "gradient",
+                  badge: <Badge variant="info">Coming Soon</Badge>,
+                  title: "Next Generation Features",
+                  subtitle: "Get ready for revolutionary updates that will change everything.",
+                  primaryAction: "Join Waitlist",
+                  secondaryAction: "Read Roadmap"
+                }
+              ]}
+              autoPlay={false}
+              showNavigation={true}
+              showIndicators={true}
+              minHeight="450px"
+            />
+          </div>
+        </div>
       </div>
     </section>
 
