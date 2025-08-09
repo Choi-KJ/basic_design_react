@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import Card from "./Card";
 import Heading from "./Heading";
@@ -12,8 +12,73 @@ import Carousel from "./Carousel";
 import Hero from "./Hero";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
+import Modal from "./Modal";
+import Dropdown from "./Dropdown";
+import Loading, { Spinner, Dots, Pulse, Bars, Ring, Progress, LoadingOverlay, LoadingButton } from "./Loading";
+import Alert, { useAlert, Toast, AlertContainer } from "./Alert";
+import Tooltip, { TooltipButton, TooltipIcon, TooltipText } from "./Tooltip";
+import Tabs, { Tab, SimpleTabs, TabPanel } from "./Tabs";
 
-const DemoPage = () => (
+const DemoPage = () => {
+  const { alerts, showAlert, closeAlert, success, error, warning, info, clearAll } = useAlert();
+  
+  const [modals, setModals] = useState({
+    alert: false,
+    confirm: false,
+    error: false,
+    warning: false,
+    success: false,
+    custom: false
+  });
+
+  const [dropdownValues, setDropdownValues] = useState({
+    basic: null,
+    searchable: null,
+    multiple: [],
+    countries: null,
+    clearable: 'option2'
+  });
+
+  const [loadingStates, setLoadingStates] = useState({
+    overlay: false,
+    button1: false,
+    button2: false,
+    button3: false,
+    fullscreen: false
+  });
+
+  const openModal = (type) => {
+    setModals(prev => ({ ...prev, [type]: true }));
+  };
+
+  const closeModal = (type) => {
+    setModals(prev => ({ ...prev, [type]: false }));
+  };
+
+  const handleConfirm = (type) => {
+    console.log(`${type} 모달에서 확인을 클릭했습니다!`);
+  };
+
+  const simulateLoading = (buttonKey, duration = 2000) => {
+    setLoadingStates(prev => ({ ...prev, [buttonKey]: true }));
+    setTimeout(() => {
+      setLoadingStates(prev => ({ ...prev, [buttonKey]: false }));
+    }, duration);
+  };
+
+  const toggleOverlay = () => {
+    setLoadingStates(prev => ({ ...prev, overlay: !prev.overlay }));
+  };
+
+  const showFullscreenLoading = () => {
+    setLoadingStates(prev => ({ ...prev, fullscreen: true }));
+    // 3초 후 자동으로 닫기
+    setTimeout(() => {
+      setLoadingStates(prev => ({ ...prev, fullscreen: false }));
+    }, 3000);
+  };
+
+  return (
   <div style={{ background: "#18191A", minHeight: "100vh", color: "#fff" }}>
     {/* Hero Section */}
     <section style={{ marginBottom: 48 }}>
@@ -748,7 +813,1335 @@ const DemoPage = () => (
         </div>
       </div>
     </section>
+
+    {/* Dropdown Section */}
+    <section style={{ padding: "0 32px", marginBottom: 48, borderTop: "1px solid #2a2d31" }}>
+      <div style={{ paddingTop: 48 }}>
+        <h2 style={{ fontSize: "18px", fontWeight: 600, marginBottom: 16, color: "#fff", opacity: 0.8 }}>Dropdown Components</h2>
+        
+        {/* Basic Dropdown */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Basic Dropdown</h3>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>기본 드롭다운</p>
+              <Dropdown
+                options={['옵션 1', '옵션 2', '옵션 3', '옵션 4']}
+                value={dropdownValues.basic}
+                onChange={(value) => setDropdownValues(prev => ({ ...prev, basic: value }))}
+                placeholder="옵션을 선택하세요"
+              />
+            </div>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>Small 크기</p>
+              <Dropdown
+                options={['Small 1', 'Small 2', 'Small 3']}
+                size="sm"
+                placeholder="Small dropdown"
+              />
+            </div>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>Large 크기</p>
+              <Dropdown
+                options={['Large 1', 'Large 2', 'Large 3']}
+                size="lg"
+                placeholder="Large dropdown"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Variants */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Variants</h3>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>Default</p>
+              <Dropdown
+                options={['Option A', 'Option B', 'Option C']}
+                variant="default"
+                placeholder="Default variant"
+              />
+            </div>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>Outline</p>
+              <Dropdown
+                options={['Option A', 'Option B', 'Option C']}
+                variant="outline"
+                placeholder="Outline variant"
+              />
+            </div>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>Ghost</p>
+              <Dropdown
+                options={['Option A', 'Option B', 'Option C']}
+                variant="ghost"
+                placeholder="Ghost variant"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Advanced Features */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Advanced Features</h3>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>검색 가능</p>
+              <Dropdown
+                options={[
+                  { value: 'react', label: 'React' },
+                  { value: 'vue', label: 'Vue.js' },
+                  { value: 'angular', label: 'Angular' },
+                  { value: 'svelte', label: 'Svelte' },
+                  { value: 'nextjs', label: 'Next.js' },
+                  { value: 'nuxt', label: 'Nuxt.js' }
+                ]}
+                value={dropdownValues.searchable}
+                onChange={(value) => setDropdownValues(prev => ({ ...prev, searchable: value }))}
+                placeholder="프레임워크 검색..."
+                searchable={true}
+              />
+            </div>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>다중 선택</p>
+              <Dropdown
+                options={[
+                  { value: 'js', label: 'JavaScript' },
+                  { value: 'ts', label: 'TypeScript' },
+                  { value: 'python', label: 'Python' },
+                  { value: 'java', label: 'Java' },
+                  { value: 'go', label: 'Go' }
+                ]}
+                value={dropdownValues.multiple}
+                onChange={(value) => setDropdownValues(prev => ({ ...prev, multiple: value }))}
+                placeholder="언어를 선택하세요"
+                multiple={true}
+                searchable={true}
+              />
+            </div>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>초기화 가능</p>
+              <Dropdown
+                options={[
+                  { value: 'option1', label: '옵션 1' },
+                  { value: 'option2', label: '옵션 2' },
+                  { value: 'option3', label: '옵션 3' }
+                ]}
+                value={dropdownValues.clearable}
+                onChange={(value) => setDropdownValues(prev => ({ ...prev, clearable: value }))}
+                placeholder="옵션을 선택하세요"
+                clearable={true}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Real World Examples */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Real World Examples</h3>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>국가 선택</p>
+              <Dropdown
+                options={[
+                  { value: 'kr', label: '🇰🇷 대한민국' },
+                  { value: 'us', label: '🇺🇸 미국' },
+                  { value: 'jp', label: '🇯🇵 일본' },
+                  { value: 'cn', label: '🇨🇳 중국' },
+                  { value: 'uk', label: '🇬🇧 영국' },
+                  { value: 'de', label: '🇩🇪 독일' },
+                  { value: 'fr', label: '🇫🇷 프랑스' }
+                ]}
+                value={dropdownValues.countries}
+                onChange={(value) => setDropdownValues(prev => ({ ...prev, countries: value }))}
+                placeholder="국가를 선택하세요"
+                searchable={true}
+                clearable={true}
+              />
+            </div>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>비활성화</p>
+              <Dropdown
+                options={['옵션 1', '옵션 2', '옵션 3']}
+                placeholder="비활성화된 드롭다운"
+                disabled={true}
+              />
+            </div>
+            <div style={{ minWidth: "200px" }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", marginBottom: "8px" }}>오류 상태</p>
+              <Dropdown
+                options={['옵션 1', '옵션 2', '옵션 3']}
+                placeholder="오류가 있는 드롭다운"
+                error={true}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Usage Example */}
+        <div>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>사용법 예제</h3>
+          <div style={{ 
+            backgroundColor: "#1e1f23", 
+            border: "1px solid #2a2d31", 
+            borderRadius: "8px", 
+            padding: "16px",
+            fontFamily: "monospace",
+            fontSize: "13px",
+            color: "#8a8f98"
+          }}>
+            <div style={{ color: "#569cd6" }}>// 기본 사용법</div>
+            <div style={{ marginTop: "4px" }}>{"<Dropdown options={['옵션1', '옵션2']} onChange={handleChange} />"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// 고급 기능</div>
+            <div style={{ marginTop: "4px" }}>{"<Dropdown options={options} searchable multiple clearable />"}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Loading Section */}
+    <section style={{ padding: "0 32px", marginBottom: 48, borderTop: "1px solid #2a2d31" }}>
+      <div style={{ paddingTop: 48 }}>
+        <h2 style={{ fontSize: "18px", fontWeight: 600, marginBottom: 16, color: "#fff", opacity: 0.8 }}>Loading Components</h2>
+        
+        {/* Loading Types */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Loading Types</h3>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>Spinner</p>
+              <Spinner size="md" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>Dots</p>
+              <Dots size="md" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>Pulse</p>
+              <Pulse size="md" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>Bars</p>
+              <Bars size="md" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>Ring</p>
+              <Ring size="md" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>Progress</p>
+              <Progress size="md" />
+            </div>
+          </div>
+        </div>
+
+        {/* Sizes */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Sizes</h3>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>XS</p>
+              <Spinner size="xs" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>SM</p>
+              <Spinner size="sm" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>MD</p>
+              <Spinner size="md" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>LG</p>
+              <Spinner size="lg" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>XL</p>
+              <Spinner size="xl" />
+            </div>
+          </div>
+        </div>
+
+        {/* Colors */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Colors</h3>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>Primary</p>
+              <Spinner size="md" color="primary" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>Secondary</p>
+              <Spinner size="md" color="secondary" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>White</p>
+              <Spinner size="md" color="white" />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <p style={{ fontSize: "12px", color: "#8a8f98", margin: 0 }}>Custom</p>
+              <Spinner size="md" color="#10B981" />
+            </div>
+          </div>
+        </div>
+
+        {/* With Text */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>With Text</h3>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            <Loading type="spinner" size="md" text="로딩 중..." />
+            <Loading type="dots" size="md" text="처리 중..." />
+            <Loading type="bars" size="md" text="업로드 중..." />
+          </div>
+        </div>
+
+        {/* Interactive Examples */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Interactive Examples</h3>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
+            <LoadingButton
+              loading={loadingStates.button1}
+              onClick={() => simulateLoading('button1')}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: '#5E6AD2',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                fontWeight: 500
+              }}
+              loadingText="저장 중..."
+            >
+              저장하기
+            </LoadingButton>
+
+            <LoadingButton
+              loading={loadingStates.button2}
+              onClick={() => simulateLoading('button2', 3000)}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: '#10B981',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                fontWeight: 500
+              }}
+              loadingText="업로드 중..."
+            >
+              파일 업로드
+            </LoadingButton>
+
+            <LoadingButton
+              loading={loadingStates.button3}
+              onClick={() => simulateLoading('button3', 1500)}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: 'transparent',
+                color: '#5E6AD2',
+                border: '1px solid #5E6AD2',
+                borderRadius: '8px',
+                fontWeight: 500
+              }}
+            >
+              데이터 로드
+            </LoadingButton>
+          </div>
+        </div>
+
+        {/* Loading Overlay */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Loading Overlay</h3>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+              <Button
+                variant="primary"
+                onClick={toggleOverlay}
+                style={{ minWidth: '180px' }}
+              >
+                {loadingStates.overlay ? '오버레이 숨기기' : '오버레이 보기'}
+              </Button>
+              
+              <Button
+                variant="outline"
+                onClick={showFullscreenLoading}
+                style={{ 
+                  minWidth: '180px',
+                  backgroundColor: '#EF4444',
+                  borderColor: '#EF4444',
+                  color: 'white'
+                }}
+              >
+                전체 화면 로딩
+              </Button>
+            </div>
+            
+            <LoadingOverlay
+              loading={loadingStates.overlay}
+              loadingProps={{
+                type: "spinner",
+                size: "lg",
+                text: "데이터를 불러오는 중...",
+                color: "primary"
+              }}
+            >
+              <div style={{
+                width: '300px',
+                height: '200px',
+                backgroundColor: '#1e1f23',
+                border: '1px solid #2a2d31',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#8a8f98'
+              }}>
+                <p>여기에 콘텐츠가 있습니다.<br/>오버레이 테스트용 영역</p>
+              </div>
+            </LoadingOverlay>
+          </div>
+        </div>
+
+        {/* Usage Examples */}
+        <div>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>사용법 예제</h3>
+          <div style={{ 
+            backgroundColor: "#1e1f23", 
+            border: "1px solid #2a2d31", 
+            borderRadius: "8px", 
+            padding: "16px",
+            fontFamily: "monospace",
+            fontSize: "13px",
+            color: "#8a8f98"
+          }}>
+            <div style={{ color: "#569cd6" }}>// 기본 스피너</div>
+            <div style={{ marginTop: "4px" }}>{"<Loading type=\"spinner\" size=\"md\" />"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// 텍스트와 함께</div>
+            <div style={{ marginTop: "4px" }}>{"<Loading type=\"dots\" text=\"로딩 중...\" />"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// 로딩 버튼</div>
+            <div style={{ marginTop: "4px" }}>{"<LoadingButton loading={isLoading} onClick={handleSave}>"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"저장하기"}</div>
+            <div style={{ marginTop: "2px" }}>{"</LoadingButton>"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// 오버레이</div>
+            <div style={{ marginTop: "4px" }}>{"<LoadingOverlay loading={isLoading}>"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"콘텐츠"}</div>
+            <div style={{ marginTop: "2px" }}>{"</LoadingOverlay>"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// 전체 화면 dimmed</div>
+            <div style={{ marginTop: "4px" }}>{"<Loading type=\"dots\" fullscreen={true} text=\"로딩 중...\" />"}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Alert Section */}
+    <section style={{ padding: "0 32px", marginBottom: 48, borderTop: "1px solid #2a2d31" }}>
+      <div style={{ paddingTop: 48 }}>
+        <h2 style={{ fontSize: "18px", fontWeight: 600, marginBottom: 16, color: "#fff", opacity: 0.8 }}>Alert/Notification Components</h2>
+        
+        {/* Basic Alerts */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Basic Alerts</h3>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <Button
+              variant="primary"
+              onClick={() => success("작업이 성공적으로 완료되었습니다!")}
+              style={{ backgroundColor: '#10B981', borderColor: '#10B981' }}
+            >
+              성공 알림
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => error("오류가 발생했습니다. 다시 시도해주세요.")}
+              style={{ backgroundColor: '#EF4444', borderColor: '#EF4444' }}
+            >
+              오류 알림
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => warning("주의가 필요한 상황입니다.")}
+              style={{ backgroundColor: '#F59E0B', borderColor: '#F59E0B' }}
+            >
+              경고 알림
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => info("새로운 정보가 있습니다.")}
+              style={{ backgroundColor: '#3B82F6', borderColor: '#3B82F6' }}
+            >
+              정보 알림
+            </Button>
+          </div>
+        </div>
+
+        {/* Advanced Alerts */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Advanced Alerts</h3>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <Button
+              variant="outline"
+              onClick={() => showAlert({
+                type: 'success',
+                title: '업로드 완료',
+                message: '파일이 성공적으로 업로드되었습니다.',
+                duration: 7000
+              })}
+            >
+              제목 + 메시지
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => showAlert({
+                type: 'warning',
+                title: '저장 공간 부족',
+                message: '저장 공간이 90%를 초과했습니다.',
+                action: {
+                  label: '정리하기',
+                  onClick: () => alert('정리 페이지로 이동!')
+                },
+                duration: 10000
+              })}
+            >
+              액션 버튼
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => showAlert({
+                type: 'info',
+                title: '업데이트 안내',
+                message: '새로운 버전이 출시되었습니다. 업데이트를 진행하시겠습니까?',
+                duration: 0, // 자동으로 사라지지 않음
+                closable: true
+              })}
+            >
+              수동 닫기
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => showAlert({
+                type: 'error',
+                message: '아이콘 없는 심플 알림입니다.',
+                icon: false,
+                duration: 4000
+              })}
+            >
+              아이콘 없음
+            </Button>
+          </div>
+        </div>
+
+        {/* Multiple Alerts */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Multiple Alerts</h3>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                success("첫 번째 알림!");
+                setTimeout(() => warning("두 번째 알림!"), 500);
+                setTimeout(() => info("세 번째 알림!"), 1000);
+              }}
+            >
+              연속 알림
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                for(let i = 1; i <= 5; i++) {
+                  setTimeout(() => {
+                    showAlert({
+                      type: i % 2 === 0 ? 'success' : 'info',
+                      message: `알림 ${i}/5`,
+                      duration: 3000
+                    });
+                  }, i * 200);
+                }
+              }}
+            >
+              스택 테스트
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={clearAll}
+              style={{ color: '#EF4444', borderColor: '#EF4444' }}
+            >
+              모든 알림 제거
+            </Button>
+          </div>
+        </div>
+
+        {/* Real World Examples */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Real World Examples</h3>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <Button
+              variant="primary"
+              onClick={() => showAlert({
+                type: 'success',
+                title: '주문 완료',
+                message: '주문번호 #12345가 성공적으로 접수되었습니다.',
+                action: {
+                  label: '주문 확인',
+                  onClick: () => alert('주문 페이지로 이동!')
+                },
+                duration: 8000
+              })}
+            >
+              주문 완료
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => showAlert({
+                type: 'error',
+                title: '결제 실패',
+                message: '카드 정보를 확인하고 다시 시도해주세요.',
+                action: {
+                  label: '재시도',
+                  onClick: () => alert('결제 페이지로 이동!')
+                },
+                duration: 0
+              })}
+            >
+              결제 실패
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => showAlert({
+                type: 'info',
+                title: '새 메시지',
+                message: '관리자님으로부터 새로운 메시지가 도착했습니다.',
+                action: {
+                  label: '확인',
+                  onClick: () => alert('메시지함으로 이동!')
+                }
+              })}
+            >
+              메시지 알림
+            </Button>
+          </div>
+        </div>
+
+        {/* Usage Examples */}
+        <div>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>사용법 예제</h3>
+          <div style={{ 
+            backgroundColor: "#1e1f23", 
+            border: "1px solid #2a2d31", 
+            borderRadius: "8px", 
+            padding: "16px",
+            fontFamily: "monospace",
+            fontSize: "13px",
+            color: "#8a8f98"
+          }}>
+            <div style={{ color: "#569cd6" }}>// 기본 알림</div>
+            <div style={{ marginTop: "4px" }}>{"const { success, error, warning, info } = useAlert();"}</div>
+            <div style={{ marginTop: "4px" }}>{"success('저장되었습니다!');"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// 고급 알림</div>
+            <div style={{ marginTop: "4px" }}>{"showAlert({"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"type: 'warning',"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"title: '경고',"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"message: '주의하세요!',"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"action: { label: '확인', onClick: handleAction }"}</div>
+            <div style={{ marginTop: "2px" }}>{"});"}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Tooltip Section */}
+    <section style={{ padding: "0 32px", marginBottom: 48, borderTop: "1px solid #2a2d31" }}>
+      <div style={{ paddingTop: 48 }}>
+        <h2 style={{ fontSize: "18px", fontWeight: 600, marginBottom: 16, color: "#fff", opacity: 0.8 }}>Tooltip Components</h2>
+        
+        {/* Basic Tooltips */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Basic Tooltips</h3>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            <Tooltip content="위쪽에 표시되는 툴팁입니다" position="top">
+              <Button variant="outline">Top Tooltip</Button>
+            </Tooltip>
+            <Tooltip content="아래쪽에 표시되는 툴팁입니다" position="bottom">
+              <Button variant="outline">Bottom Tooltip</Button>
+            </Tooltip>
+            <Tooltip content="왼쪽에 표시되는 툴팁입니다" position="left">
+              <Button variant="outline">Left Tooltip</Button>
+            </Tooltip>
+            <Tooltip content="오른쪽에 표시되는 툴팁입니다" position="right">
+              <Button variant="outline">Right Tooltip</Button>
+            </Tooltip>
+          </div>
+        </div>
+
+        {/* Trigger Types */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Trigger Types</h3>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            <Tooltip content="마우스를 올렸을 때 표시됩니다 (기본값)" trigger="hover">
+              <Button variant="primary">Hover Trigger</Button>
+            </Tooltip>
+            <Tooltip content="클릭했을 때 표시됩니다" trigger="click">
+              <Button variant="primary">Click Trigger</Button>
+            </Tooltip>
+            <Tooltip content="포커스됐을 때 표시됩니다" trigger="focus">
+              <Button variant="primary">Focus Trigger</Button>
+            </Tooltip>
+          </div>
+        </div>
+
+        {/* Variants */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Variants & Sizes</h3>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            <Tooltip content="어두운 테마 툴팁 (기본)" variant="dark" size="sm">
+              <Button variant="ghost">Dark Small</Button>
+            </Tooltip>
+            <Tooltip content="밝은 테마 툴팁입니다" variant="light" size="md">
+              <Button variant="ghost">Light Medium</Button>
+            </Tooltip>
+            <Tooltip 
+              content="큰 크기의 툴팁으로 더 많은 정보를 담을 수 있습니다. 여러 줄의 텍스트도 표시 가능합니다." 
+              variant="dark" 
+              size="lg"
+              maxWidth="250px"
+            >
+              <Button variant="ghost">Dark Large</Button>
+            </Tooltip>
+            <Tooltip content="화살표 없는 툴팁" arrow={false}>
+              <Button variant="ghost">No Arrow</Button>
+            </Tooltip>
+          </div>
+        </div>
+
+        {/* Convenience Components */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Convenience Components</h3>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            <TooltipButton 
+              tooltip="버튼 전용 편의 컴포넌트입니다"
+              style={{
+                padding: '12px 24px',
+                backgroundColor: '#5E6AD2',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer'
+              }}
+            >
+              Tooltip Button
+            </TooltipButton>
+            
+            <TooltipIcon tooltip="아이콘용 툴팁입니다">
+              <Icon name="help-circle" size={24} color="#8a8f98" style={{ cursor: 'help' }} />
+            </TooltipIcon>
+            
+            <TooltipText tooltip="점선 밑줄이 있는 텍스트입니다">
+              도움말 텍스트
+            </TooltipText>
+          </div>
+        </div>
+
+        {/* Advanced Examples */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Advanced Examples</h3>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            <Tooltip 
+              content="500ms 지연 후 표시됩니다" 
+              delay={500}
+            >
+              <Button variant="outline">Delayed Tooltip</Button>
+            </Tooltip>
+            
+            <Tooltip 
+              content="빠른 숨김 툴팁입니다" 
+              hideDelay={100}
+            >
+              <Button variant="outline">Fast Hide</Button>
+            </Tooltip>
+            
+            <Tooltip 
+              content="비활성화된 상태입니다" 
+              disabled={true}
+            >
+              <Button variant="outline" style={{ opacity: 0.5 }}>Disabled Tooltip</Button>
+            </Tooltip>
+            
+            <Tooltip 
+              content={
+                <div>
+                  <strong style={{ color: '#5E6AD2' }}>HTML 콘텐츠</strong>
+                  <br />
+                  <span>Rich content with formatting</span>
+                  <br />
+                  <em style={{ color: '#10B981' }}>Styled elements</em>
+                </div>
+              }
+              maxWidth="200px"
+              size="lg"
+            >
+              <Button variant="primary">Rich Content</Button>
+            </Tooltip>
+          </div>
+        </div>
+
+        {/* Real World Examples */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Real World Examples</h3>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>사용자 이름</span>
+              <Tooltip content="사용자 이름은 3-20자 사이여야 하며, 영문, 숫자, 언더스코어만 사용 가능합니다.">
+                <Icon name="help-circle" size={16} color="#8a8f98" style={{ cursor: 'help' }} />
+              </Tooltip>
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Button 
+                variant="primary" 
+                style={{ 
+                  backgroundColor: '#EF4444',
+                  borderColor: '#EF4444'
+                }}
+              >
+                삭제
+              </Button>
+              <Tooltip content="이 작업은 되돌릴 수 없습니다. 신중하게 결정해주세요." variant="light" position="top">
+                <Icon name="alert-triangle" size={16} color="#F59E0B" style={{ cursor: 'help' }} />
+              </Tooltip>
+            </div>
+            
+            <Tooltip 
+              content="프리미엄 기능입니다. 업그레이드가 필요합니다." 
+              variant="light"
+              trigger="click"
+            >
+              <Button variant="outline" style={{ opacity: 0.6, cursor: 'not-allowed' }}>
+                🔒 Premium Feature
+              </Button>
+            </Tooltip>
+          </div>
+        </div>
+
+        {/* Usage Examples */}
+        <div>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>사용법 예제</h3>
+          <div style={{ 
+            backgroundColor: "#1e1f23", 
+            border: "1px solid #2a2d31", 
+            borderRadius: "8px", 
+            padding: "16px",
+            fontFamily: "monospace",
+            fontSize: "13px",
+            color: "#8a8f98"
+          }}>
+            <div style={{ color: "#569cd6" }}>// 기본 툴팁</div>
+            <div style={{ marginTop: "4px" }}>{"<Tooltip content=\"도움말 메시지\">"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"<Button>버튼</Button>"}</div>
+            <div style={{ marginTop: "2px" }}>{"</Tooltip>"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// 고급 옵션</div>
+            <div style={{ marginTop: "4px" }}>{"<Tooltip"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"content=\"상세 설명\""}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"position=\"right\""}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"trigger=\"click\""}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"variant=\"light\""}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"delay={300}"}</div>
+            <div style={{ marginTop: "2px" }}>{"/>"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// 편의 컴포넌트</div>
+            <div style={{ marginTop: "4px" }}>{"<TooltipButton tooltip=\"버튼 설명\">클릭</TooltipButton>"}</div>
+            <div style={{ marginTop: "4px" }}>{"<TooltipIcon tooltip=\"아이콘 설명\"><Icon /></TooltipIcon>"}</div>
+            <div style={{ marginTop: "4px" }}>{"<TooltipText tooltip=\"텍스트 설명\">도움말</TooltipText>"}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Tabs Section */}
+    <section style={{ padding: "0 32px", marginBottom: 48, borderTop: "1px solid #2a2d31" }}>
+      <div style={{ paddingTop: 48 }}>
+        <h2 style={{ fontSize: "18px", fontWeight: 600, marginBottom: 16, color: "#fff", opacity: 0.8 }}>Tabs Components</h2>
+        
+        {/* Basic Tabs */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Basic Tabs</h3>
+          <Tabs
+            tabs={[
+              {
+                id: 'tab1',
+                label: '홈',
+                content: (
+                  <div style={{ padding: '20px', backgroundColor: '#1e1f23', borderRadius: '8px' }}>
+                    <h4 style={{ color: '#fff', marginTop: 0 }}>홈 탭 콘텐츠</h4>
+                    <p style={{ color: '#8a8f98', margin: 0 }}>
+                      이곳은 홈 탭의 콘텐츠입니다. 다양한 정보와 대시보드를 표시할 수 있습니다.
+                    </p>
+                  </div>
+                )
+              },
+              {
+                id: 'tab2',
+                label: '설정',
+                icon: 'settings',
+                content: (
+                  <div style={{ padding: '20px', backgroundColor: '#1e1f23', borderRadius: '8px' }}>
+                    <h4 style={{ color: '#fff', marginTop: 0 }}>설정 탭 콘텐츠</h4>
+                    <p style={{ color: '#8a8f98', margin: '0 0 16px 0' }}>
+                      애플리케이션의 각종 설정을 관리할 수 있습니다.
+                    </p>
+                    <div style={{ display: 'flex', gap: '12px' }}>
+                      <Button variant="primary" size="sm">저장</Button>
+                      <Button variant="outline" size="sm">취소</Button>
+                    </div>
+                  </div>
+                )
+              },
+              {
+                id: 'tab3',
+                label: '프로필',
+                icon: 'user',
+                content: (
+                  <div style={{ padding: '20px', backgroundColor: '#1e1f23', borderRadius: '8px' }}>
+                    <h4 style={{ color: '#fff', marginTop: 0 }}>프로필 탭 콘텐츠</h4>
+                    <p style={{ color: '#8a8f98', margin: 0 }}>
+                      사용자 프로필 정보를 확인하고 수정할 수 있습니다.
+                    </p>
+                  </div>
+                )
+              }
+            ]}
+          />
+        </div>
+
+        {/* Variants */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Variants</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+            {/* Pills */}
+            <div>
+              <h4 style={{ fontSize: "12px", color: "#8a8f98", marginBottom: '16px' }}>Pills Variant</h4>
+              <Tabs
+                variant="pills"
+                tabs={[
+                  { id: 'pill1', label: '대시보드', content: <div style={{ padding: '16px', color: '#8a8f98' }}>Pills 스타일 대시보드 콘텐츠</div> },
+                  { id: 'pill2', label: '분석', icon: 'trending-up', content: <div style={{ padding: '16px', color: '#8a8f98' }}>분석 데이터 및 차트</div> },
+                  { id: 'pill3', label: '보고서', content: <div style={{ padding: '16px', color: '#8a8f98' }}>생성된 보고서 목록</div> }
+                ]}
+              />
+            </div>
+
+            {/* Underline */}
+            <div>
+              <h4 style={{ fontSize: "12px", color: "#8a8f98", marginBottom: '16px' }}>Underline Variant</h4>
+              <Tabs
+                variant="underline"
+                tabs={[
+                  { id: 'under1', label: '개요', content: <div style={{ padding: '16px', color: '#8a8f98' }}>프로젝트 개요 정보</div> },
+                  { id: 'under2', label: '팀', icon: 'users', content: <div style={{ padding: '16px', color: '#8a8f98' }}>팀 멤버 및 권한 관리</div> },
+                  { id: 'under3', label: '활동', badge: '3', content: <div style={{ padding: '16px', color: '#8a8f98' }}>최근 활동 내역</div> }
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Advanced Features */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Advanced Features</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+            {/* With Icons and Badges */}
+            <div>
+              <h4 style={{ fontSize: "12px", color: "#8a8f98", marginBottom: '16px' }}>Icons, Badges & Disabled</h4>
+              <Tabs
+                tabs={[
+                  { 
+                    id: 'adv1', 
+                    label: '메시지', 
+                    icon: 'mail', 
+                    badge: '12',
+                    content: <div style={{ padding: '16px', color: '#8a8f98' }}>읽지 않은 메시지 12개</div> 
+                  },
+                  { 
+                    id: 'adv2', 
+                    label: '알림', 
+                    icon: 'bell', 
+                    badge: '5',
+                    content: <div style={{ padding: '16px', color: '#8a8f98' }}>새 알림 5개</div> 
+                  },
+                  { 
+                    id: 'adv3', 
+                    label: '설정', 
+                    icon: 'settings',
+                    content: <div style={{ padding: '16px', color: '#8a8f98' }}>시스템 설정</div> 
+                  },
+                  { 
+                    id: 'adv4', 
+                    label: '비활성화', 
+                    disabled: true,
+                    content: <div style={{ padding: '16px', color: '#8a8f98' }}>접근할 수 없는 콘텐츠</div> 
+                  }
+                ]}
+              />
+            </div>
+
+            {/* Full Width & Centered */}
+            <div>
+              <h4 style={{ fontSize: "12px", color: "#8a8f98", marginBottom: '16px' }}>Full Width & Centered</h4>
+              <Tabs
+                fullWidth
+                centered
+                variant="pills"
+                tabs={[
+                  { id: 'full1', label: '전체 너비', content: <div style={{ padding: '16px', color: '#8a8f98' }}>전체 너비로 표시되는 탭</div> },
+                  { id: 'full2', label: '가운데 정렬', content: <div style={{ padding: '16px', color: '#8a8f98' }}>가운데 정렬된 탭</div> },
+                  { id: 'full3', label: '균등 분배', content: <div style={{ padding: '16px', color: '#8a8f98' }}>균등하게 분배된 탭</div> }
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Vertical Tabs */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Vertical Tabs</h3>
+          <div style={{ height: '300px' }}>
+            <Tabs
+              variant="vertical"
+              tabs={[
+                {
+                  id: 'vert1',
+                  label: '계정 설정',
+                  icon: 'user',
+                  content: (
+                    <div style={{ padding: '20px', backgroundColor: '#1e1f23', borderRadius: '8px', height: '100%' }}>
+                      <h4 style={{ color: '#fff', marginTop: 0 }}>계정 설정</h4>
+                      <p style={{ color: '#8a8f98' }}>사용자 계정 정보를 관리합니다.</p>
+                      <div style={{ marginTop: '16px' }}>
+                        <Input placeholder="사용자 이름" style={{ marginBottom: '12px' }} />
+                        <Input placeholder="이메일 주소" />
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  id: 'vert2',
+                  label: '보안',
+                  icon: 'shield',
+                  content: (
+                    <div style={{ padding: '20px', backgroundColor: '#1e1f23', borderRadius: '8px', height: '100%' }}>
+                      <h4 style={{ color: '#fff', marginTop: 0 }}>보안 설정</h4>
+                      <p style={{ color: '#8a8f98' }}>비밀번호 및 2단계 인증을 설정합니다.</p>
+                      <div style={{ marginTop: '16px' }}>
+                        <Button variant="primary" style={{ marginRight: '8px' }}>비밀번호 변경</Button>
+                        <Button variant="outline">2FA 설정</Button>
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  id: 'vert3',
+                  label: '알림',
+                  icon: 'bell',
+                  badge: '2',
+                  content: (
+                    <div style={{ padding: '20px', backgroundColor: '#1e1f23', borderRadius: '8px', height: '100%' }}>
+                      <h4 style={{ color: '#fff', marginTop: 0 }}>알림 설정</h4>
+                      <p style={{ color: '#8a8f98' }}>받고 싶은 알림의 종류를 선택합니다.</p>
+                    </div>
+                  )
+                },
+                {
+                  id: 'vert4',
+                  label: '결제',
+                  icon: 'credit-card',
+                  content: (
+                    <div style={{ padding: '20px', backgroundColor: '#1e1f23', borderRadius: '8px', height: '100%' }}>
+                      <h4 style={{ color: '#fff', marginTop: 0 }}>결제 정보</h4>
+                      <p style={{ color: '#8a8f98' }}>결제 수단과 구독 정보를 관리합니다.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* Simple Tabs (JSX Style) */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Simple Tabs (JSX Style)</h3>
+          <SimpleTabs variant="pills">
+            <Tab label="첫 번째" icon="home">
+              <div style={{ padding: '16px', color: '#8a8f98' }}>
+                JSX 스타일로 작성된 첫 번째 탭 콘텐츠입니다.
+              </div>
+            </Tab>
+            <Tab label="두 번째" icon="star" badge="New">
+              <div style={{ padding: '16px', color: '#8a8f98' }}>
+                새로운 기능이 추가된 두 번째 탭입니다.
+              </div>
+            </Tab>
+            <Tab label="세 번째" disabled>
+              <div style={{ padding: '16px', color: '#8a8f98' }}>
+                비활성화된 탭입니다.
+              </div>
+            </Tab>
+          </SimpleTabs>
+        </div>
+
+        {/* Usage Examples */}
+        <div>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>사용법 예제</h3>
+          <div style={{ 
+            backgroundColor: "#1e1f23", 
+            border: "1px solid #2a2d31", 
+            borderRadius: "8px", 
+            padding: "16px",
+            fontFamily: "monospace",
+            fontSize: "13px",
+            color: "#8a8f98"
+          }}>
+            <div style={{ color: "#569cd6" }}>// 기본 탭</div>
+            <div style={{ marginTop: "4px" }}>{"<Tabs tabs={["}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"{ id: 'tab1', label: '홈', content: <div>홈</div> },"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"{ id: 'tab2', label: '설정', icon: 'settings', content: <div>설정</div> }"}</div>
+            <div style={{ marginTop: "2px" }}>{"]} />"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// 고급 옵션</div>
+            <div style={{ marginTop: "4px" }}>{"<Tabs"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"variant=\"pills\"      // default, pills, underline, vertical"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"fullWidth={true}"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"centered={true}"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"lazy={true}           // 처음 활성화될 때만 렌더링"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"onTabChange={handleTabChange}"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"tabs={tabs}"}</div>
+            <div style={{ marginTop: "2px" }}>{"/>"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// JSX 스타일</div>
+            <div style={{ marginTop: "4px" }}>{"<SimpleTabs>"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"<Tab label=\"홈\" icon=\"home\">홈 콘텐츠</Tab>"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"<Tab label=\"설정\" badge=\"2\">설정 콘텐츠</Tab>"}</div>
+            <div style={{ marginTop: "2px" }}>{"</SimpleTabs>"}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Modal Section */}
+    <section style={{ padding: "0 32px", marginBottom: 48, borderTop: "1px solid #2a2d31" }}>
+      <div style={{ paddingTop: 48 }}>
+        <h2 style={{ fontSize: "18px", fontWeight: 600, marginBottom: 16, color: "#fff", opacity: 0.8 }}>Modal Components</h2>
+        
+        {/* Alert Modal */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Alert Modal (확인만)</h3>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <Button 
+              variant="primary" 
+              onClick={() => openModal('alert')}
+            >
+              기본 알림
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => openModal('error')}
+            >
+              오류 알림
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => openModal('warning')}
+            >
+              경고 알림
+            </Button>
+            <Button 
+              variant="primary" 
+              onClick={() => openModal('success')}
+            >
+              성공 알림
+            </Button>
+          </div>
+        </div>
+
+        {/* Confirm Modal */}
+        <div style={{ marginBottom: 32 }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>Confirm Modal (확인+취소)</h3>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <Button 
+              variant="primary" 
+              onClick={() => openModal('confirm')}
+            >
+              확인/취소 모달
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => openModal('custom')}
+            >
+              커스텀 콘텐츠
+            </Button>
+          </div>
+        </div>
+
+        {/* Custom Content Example */}
+        <div>
+          <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>사용법 예제</h3>
+          <div style={{ 
+            backgroundColor: "#1e1f23", 
+            border: "1px solid #2a2d31", 
+            borderRadius: "8px", 
+            padding: "16px",
+            fontFamily: "monospace",
+            fontSize: "13px",
+            color: "#8a8f98"
+          }}>
+            <div style={{ color: "#569cd6" }}>// Alert 타입 (확인만)</div>
+            <div style={{ marginTop: "4px" }}>{"<Modal type=\"alert\" title=\"알림\" message=\"저장되었습니다\" />"}</div>
+            <br />
+            <div style={{ color: "#569cd6" }}>// Confirm 타입 (확인+취소)</div>
+            <div style={{ marginTop: "4px" }}>{"<Modal type=\"confirm\" title=\"삭제 확인\" message=\"정말 삭제하시겠습니까?\" />"}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Modal Instances */}
+    <Modal
+      isOpen={modals.alert}
+      onClose={() => closeModal('alert')}
+      onConfirm={() => handleConfirm('alert')}
+      type="alert"
+      title="알림"
+      message="작업이 성공적으로 완료되었습니다."
+      variant="default"
+    />
+
+    <Modal
+      isOpen={modals.error}
+      onClose={() => closeModal('error')}
+      onConfirm={() => handleConfirm('error')}
+      type="alert"
+      title="오류 발생"
+      message="파일을 저장할 수 없습니다. 다시 시도해주세요."
+      variant="error"
+      confirmText="다시 시도"
+    />
+
+    <Modal
+      isOpen={modals.warning}
+      onClose={() => closeModal('warning')}
+      onConfirm={() => handleConfirm('warning')}
+      type="alert"
+      title="경고"
+      message="변경사항이 저장되지 않았습니다."
+      variant="warning"
+      confirmText="확인"
+    />
+
+    <Modal
+      isOpen={modals.success}
+      onClose={() => closeModal('success')}
+      onConfirm={() => handleConfirm('success')}
+      type="alert"
+      title="성공"
+      message="사용자 계정이 성공적으로 생성되었습니다!"
+      variant="success"
+      confirmText="시작하기"
+    />
+
+    <Modal
+      isOpen={modals.confirm}
+      onClose={() => closeModal('confirm')}
+      onConfirm={() => handleConfirm('confirm')}
+      type="confirm"
+      title="삭제 확인"
+      message="이 작업은 되돌릴 수 없습니다. 정말 삭제하시겠습니까?"
+      variant="error"
+      confirmText="삭제"
+      cancelText="취소"
+    />
+
+    <Modal
+      isOpen={modals.custom}
+      onClose={() => closeModal('custom')}
+      onConfirm={() => handleConfirm('custom')}
+      type="confirm"
+      title="업그레이드 안내"
+      variant="default"
+      size="lg"
+      confirmText="업그레이드"
+      cancelText="나중에"
+    >
+      <div style={{ marginBottom: "20px" }}>
+        <div style={{ 
+          backgroundColor: "#1e1f23", 
+          border: "1px solid #2a2d31", 
+          borderRadius: "8px", 
+          padding: "16px",
+          marginBottom: "16px"
+        }}>
+          <h4 style={{ color: "#fff", margin: "0 0 8px 0", fontSize: "16px" }}>Pro 플랜의 혜택</h4>
+          <ul style={{ margin: 0, paddingLeft: "20px", color: "#8a8f98" }}>
+            <li>무제한 프로젝트</li>
+            <li>고급 분석 도구</li>
+            <li>우선 고객 지원</li>
+            <li>팀 협업 기능</li>
+          </ul>
+        </div>
+        <p style={{ color: "#8a8f98", margin: 0, fontSize: "14px" }}>
+          지금 업그레이드하면 첫 달 50% 할인 혜택을 받을 수 있습니다.
+        </p>
+      </div>
+    </Modal>
+
+    {/* 전체 화면 Dimmed 로딩 */}
+    {loadingStates.fullscreen && (
+      <Loading
+        type="spinner"
+        size="xl"
+        text="전체 화면 로딩 중..."
+        color="primary"
+        fullscreen={true}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          backdropFilter: 'blur(4px)',
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          animation: 'fadeIn 0.3s ease-out'
+        }}
+      />
+    )}
+
+    <style>{`
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    `}</style>
+
+    {/* Alert Container */}
+    <AlertContainer
+      position="top-right"
+      alerts={alerts}
+      onClose={closeAlert}
+    />
+
   </div>
-);
+  );
+};
 
 export default DemoPage;
