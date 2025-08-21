@@ -995,10 +995,10 @@ const DemoPage = () => {
             fontSize: "13px",
             color: "#8a8f98"
           }}>
-            <div style={{ color: "#569cd6" }}>// 기본 사용법</div>
+            <div style={{ color: "#569cd6" }}>기본 사용법</div>
             <div style={{ marginTop: "4px" }}>{"<Dropdown options={['옵션1', '옵션2']} onChange={handleChange} />"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// 고급 기능</div>
+            <div style={{ color: "#569cd6" }}>고급 기능</div>
             <div style={{ marginTop: "4px" }}>{"<Dropdown options={options} searchable multiple clearable />"}</div>
           </div>
         </div>
@@ -1219,23 +1219,23 @@ const DemoPage = () => {
             fontSize: "13px",
             color: "#8a8f98"
           }}>
-            <div style={{ color: "#569cd6" }}>// 기본 스피너</div>
+            <div style={{ color: "#569cd6" }}>기본 스피너</div>
             <div style={{ marginTop: "4px" }}>{"<Loading type=\"spinner\" size=\"md\" />"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// 텍스트와 함께</div>
+            <div style={{ color: "#569cd6" }}>텍스트와 함께</div>
             <div style={{ marginTop: "4px" }}>{"<Loading type=\"dots\" text=\"로딩 중...\" />"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// 로딩 버튼</div>
+            <div style={{ color: "#569cd6" }}>로딩 버튼</div>
             <div style={{ marginTop: "4px" }}>{"<LoadingButton loading={isLoading} onClick={handleSave}>"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"저장하기"}</div>
             <div style={{ marginTop: "2px" }}>{"</LoadingButton>"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// 오버레이</div>
+            <div style={{ color: "#569cd6" }}>오버레이</div>
             <div style={{ marginTop: "4px" }}>{"<LoadingOverlay loading={isLoading}>"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"콘텐츠"}</div>
             <div style={{ marginTop: "2px" }}>{"</LoadingOverlay>"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// 전체 화면 dimmed</div>
+            <div style={{ color: "#569cd6" }}>전체 화면 dimmed</div>
             <div style={{ marginTop: "4px" }}>{"<Loading type=\"dots\" fullscreen={true} text=\"로딩 중...\" />"}</div>
           </div>
         </div>
@@ -1441,11 +1441,11 @@ const DemoPage = () => {
             fontSize: "13px",
             color: "#8a8f98"
           }}>
-            <div style={{ color: "#569cd6" }}>// 기본 알림</div>
+            <div style={{ color: "#569cd6" }}>기본 알림</div>
             <div style={{ marginTop: "4px" }}>{"const { success, error, warning, info } = useAlert();"}</div>
             <div style={{ marginTop: "4px" }}>{"success('저장되었습니다!');"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// 고급 알림</div>
+            <div style={{ color: "#569cd6" }}>고급 알림</div>
             <div style={{ marginTop: "4px" }}>{"showAlert({"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"type: 'warning',"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"title: '경고',"}</div>
@@ -1642,12 +1642,12 @@ const DemoPage = () => {
             fontSize: "13px",
             color: "#8a8f98"
           }}>
-            <div style={{ color: "#569cd6" }}>// 기본 툴팁</div>
+            <div style={{ color: "#569cd6" }}>기본 툴팁</div>
             <div style={{ marginTop: "4px" }}>{"<Tooltip content=\"도움말 메시지\">"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"<Button>버튼</Button>"}</div>
             <div style={{ marginTop: "2px" }}>{"</Tooltip>"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// 고급 옵션</div>
+            <div style={{ color: "#569cd6" }}>고급 옵션</div>
             <div style={{ marginTop: "4px" }}>{"<Tooltip"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"content=\"상세 설명\""}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"position=\"right\""}</div>
@@ -1656,7 +1656,7 @@ const DemoPage = () => {
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"delay={300}"}</div>
             <div style={{ marginTop: "2px" }}>{"/>"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// 편의 컴포넌트</div>
+            <div style={{ color: "#569cd6" }}>편의 컴포넌트</div>
             <div style={{ marginTop: "4px" }}>{"<TooltipButton tooltip=\"버튼 설명\">클릭</TooltipButton>"}</div>
             <div style={{ marginTop: "4px" }}>{"<TooltipIcon tooltip=\"아이콘 설명\"><Icon /></TooltipIcon>"}</div>
             <div style={{ marginTop: "4px" }}>{"<TooltipText tooltip=\"텍스트 설명\">도움말</TooltipText>"}</div>
@@ -1908,23 +1908,23 @@ const DemoPage = () => {
             fontSize: "13px",
             color: "#8a8f98"
           }}>
-            <div style={{ color: "#569cd6" }}>// 기본 탭</div>
+            <div style={{ color: "#569cd6" }}>기본 탭</div>
             <div style={{ marginTop: "4px" }}>{"<Tabs tabs={["}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"{ id: 'tab1', label: '홈', content: <div>홈</div> },"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"{ id: 'tab2', label: '설정', icon: 'settings', content: <div>설정</div> }"}</div>
             <div style={{ marginTop: "2px" }}>{"]} />"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// 고급 옵션</div>
+            <div style={{ color: "#569cd6" }}>고급 옵션</div>
             <div style={{ marginTop: "4px" }}>{"<Tabs"}</div>
-            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"variant=\"pills\"      // default, pills, underline, vertical"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"variant=\"pills\""}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"fullWidth={true}"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"centered={true}"}</div>
-            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"lazy={true}           // 처음 활성화될 때만 렌더링"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"lazy={true}"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"onTabChange={handleTabChange}"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"tabs={tabs}"}</div>
             <div style={{ marginTop: "2px" }}>{"/>"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// JSX 스타일</div>
+            <div style={{ color: "#569cd6" }}>JSX 스타일</div>
             <div style={{ marginTop: "4px" }}>{"<SimpleTabs>"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"<Tab label=\"홈\" icon=\"home\">홈 콘텐츠</Tab>"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"<Tab label=\"설정\" badge=\"2\">설정 콘텐츠</Tab>"}</div>
@@ -2001,10 +2001,10 @@ const DemoPage = () => {
             fontSize: "13px",
             color: "#8a8f98"
           }}>
-            <div style={{ color: "#569cd6" }}>// Alert 타입 (확인만)</div>
+            <div style={{ color: "#569cd6" }}>Alert 타입 (확인만)</div>
             <div style={{ marginTop: "4px" }}>{"<Modal type=\"alert\" title=\"알림\" message=\"저장되었습니다\" />"}</div>
             <br />
-            <div style={{ color: "#569cd6" }}>// Confirm 타입 (확인+취소)</div>
+            <div style={{ color: "#569cd6" }}>Confirm 타입 (확인+취소)</div>
             <div style={{ marginTop: "4px" }}>{"<Modal type=\"confirm\" title=\"삭제 확인\" message=\"정말 삭제하시겠습니까?\" />"}</div>
           </div>
         </div>
