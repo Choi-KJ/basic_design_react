@@ -98,6 +98,7 @@ const Tabs = ({
           handleTabChange(prevIndex, prevTab);
         }
         break;
+         default:
     }
   };
 
@@ -253,7 +254,6 @@ const Tabs = ({
     ...contentStyle
   });
 
-  const currentTab = tabs[currentActiveTab];
 
   return (
     <div className={`tabs-container ${className}`} style={getContainerStyle()}>

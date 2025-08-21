@@ -209,9 +209,6 @@ const Tooltip = ({
     const arrowColor = variant === 'dark' 
       ? theme.colors.primary.surface 
       : '#ffffff';
-    const borderColor = variant === 'dark' 
-      ? theme.colors.primary.border 
-      : '#e5e7eb';
 
     switch (position) {
       case 'top':

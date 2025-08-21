@@ -4,7 +4,6 @@ import Card from "./Card";
 import Heading from "./Heading";
 import SectionHeader from "./SectionHeader";
 import FeatureCard from "./FeatureCard";
-import Navigation from "./Navigation";
 import Input from "./Input";
 import Icon from "./Icon";
 import Badge from "./Badge";
@@ -15,9 +14,9 @@ import Navbar from "./Navbar";
 import Modal from "./Modal";
 import Dropdown from "./Dropdown";
 import Loading, { Spinner, Dots, Pulse, Bars, Ring, Progress, LoadingOverlay, LoadingButton } from "./Loading";
-import Alert, { useAlert, Toast, AlertContainer } from "./Alert";
+import { useAlert, AlertContainer } from "./Alert";
 import Tooltip, { TooltipButton, TooltipIcon, TooltipText } from "./Tooltip";
-import Tabs, { Tab, SimpleTabs, TabPanel } from "./Tabs";
+import Tabs, { Tab, SimpleTabs } from "./Tabs";
 
 const DemoPage = () => {
   const { alerts, showAlert, closeAlert, success, error, warning, info, clearAll } = useAlert();
@@ -83,7 +82,7 @@ const DemoPage = () => {
     {/* Hero Section */}
     <section style={{ marginBottom: 48 }}>
       <div>
-       <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>CI/CD테스트(삭제해야함)</h3>
+       <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>CI/CD테스트(삭제해야함11)</h3>
 
       </div>
       <div style={{ padding: "0 32px" }}>
@@ -1916,10 +1915,10 @@ const DemoPage = () => {
             <br />
             <div style={{ color: "#569cd6" }}>고급 옵션</div>
             <div style={{ marginTop: "4px" }}>{"<Tabs"}</div>
-            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"variant=\"pills\""}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"variant=\"pills\"      // default, pills, underline, vertical"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"fullWidth={true}"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"centered={true}"}</div>
-            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"lazy={true}"}</div>
+            <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"lazy={true}           // 처음 활성화될 때만 렌더링"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"onTabChange={handleTabChange}"}</div>
             <div style={{ marginTop: "2px", marginLeft: "16px" }}>{"tabs={tabs}"}</div>
             <div style={{ marginTop: "2px" }}>{"/>"}</div>

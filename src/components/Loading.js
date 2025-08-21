@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTheme } from '../ThemeProvider';
-import Icon from './Icon';
 
 const Loading = ({
   type = "spinner", // "spinner", "dots", "pulse", "bars", "ring", "progress"
