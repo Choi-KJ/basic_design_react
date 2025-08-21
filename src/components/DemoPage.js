@@ -82,6 +82,10 @@ const DemoPage = () => {
   <div style={{ background: "#18191A", minHeight: "100vh", color: "#fff" }}>
     {/* Hero Section */}
     <section style={{ marginBottom: 48 }}>
+      <div>
+       <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>CI/CD테스트</h3>
+
+      </div>
       <div style={{ padding: "0 32px" }}>
         <h2 style={{ fontSize: "18px", fontWeight: 600, marginBottom: 16, color: "#fff", opacity: 0.8 }}>Hero Components</h2>
       </div>

@@ -5,7 +5,9 @@
       "mcp__ide__getDiagnostics",
       "Bash(npm start)",
       "Bash(curl:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(git config:*)",
+      "Bash(git push:*)"
     ],
     "deny": []
   }
