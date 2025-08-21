@@ -1,0 +1,33 @@
+name: Test Self-hosted Runner
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Test runner environment
+      run: |
+        echo "🎉 Hello from self-hosted runner!"
+        echo "Current user: $(whoami)"
+        echo "Current directory: $(pwd)"
+        echo "Node.js version: $(node --version)"
+        echo "npm version: $(npm --version)"
+        echo "Docker version: $(docker --version)"
+        
+    - name: Test system info
+      run: |
+        echo "OS Info:"
+        lsb_release -a
+        echo "Available space:"
+        df -h
+        echo "Memory info:"
+        free -h
