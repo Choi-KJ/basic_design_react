@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import theme from "../theme";
@@ -300,7 +301,7 @@ const Navbar = ({
         ...(isMobile ? navbarStyles.contentMobile : navbarStyles.contentDesktop)
       }}>
         {/* Brand */}
-        <a href="#" style={navbarStyles.brand}>
+        <a href="#" onClick={(e) => e.preventDefault()}>
           {logoIcon && <Icon name={logoIcon} size={24} />}
           {logo}
         </a>

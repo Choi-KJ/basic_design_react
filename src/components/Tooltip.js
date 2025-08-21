@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useTheme } from '../ThemeProvider';
 
@@ -47,7 +47,7 @@ const Tooltip = ({
   const hideTimeoutRef = useRef(null);
 
   // 위치 계산
-  const calculatePosition = () => {
+  const calculatePosition = useCallback(() => {
     if (!triggerRef.current || !tooltipRef.current) return;
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -99,7 +99,7 @@ const Tooltip = ({
     }
 
     setTooltipPosition({ top, left });
-  };
+  }, [position, arrow]);
 
   // 표시/숨김 함수
   const showTooltip = () => {
@@ -141,7 +141,7 @@ const Tooltip = ({
         window.removeEventListener('scroll', handleScroll, true);
       };
     }
-  }, [isVisible, position]);
+  }, [isVisible, position, calculatePosition]);
 
   // 클린업
   useEffect(() => {

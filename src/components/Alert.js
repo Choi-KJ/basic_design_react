@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useTheme } from '../ThemeProvider';
 import Icon from './Icon';
@@ -51,6 +51,14 @@ const Alert = ({
   const [isVisible, setIsVisible] = useState(true);
   const [isLeaving, setIsLeaving] = useState(false);
 
+  const handleClose = useCallback(() => {
+    setIsLeaving(true);
+    setTimeout(() => {
+      setIsVisible(false);
+      onClose?.(id);
+    }, 300); // 애니메이션 시간
+  }, [id, onClose]);
+
   // 자동 닫기
   useEffect(() => {
     if (duration > 0) {
@@ -59,15 +67,7 @@ const Alert = ({
       }, duration);
       return () => clearTimeout(timer);
     }
-  }, [duration]);
-
-  const handleClose = () => {
-    setIsLeaving(true);
-    setTimeout(() => {
-      setIsVisible(false);
-      onClose?.(id);
-    }, 300); // 애니메이션 시간
-  };
+  }, [duration, handleClose]);
 
   // 타입별 설정
   const typeConfig = {
