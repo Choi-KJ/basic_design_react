@@ -30,4 +30,31 @@ jobs:
         echo "Available space:"
         df -h
         echo "Memory info:"
-        free -h
+        free -h    
+  deploy:
+    needs: test
+    runs-on: self-hosted
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Build project
+      run: npm run build
+    
+    - name: Deploy with serve
+      run: |
+        pkill serve || true
+        nohup serve -s build -l 3000 > /dev/null 2>&1 &
+        sleep 5
+        curl -f http://localhost:3000 || exit 1
