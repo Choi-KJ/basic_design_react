@@ -51,10 +51,15 @@ jobs:
     
     - name: Build project
       run: npm run build
-    
-    - name: Deploy with serve
+  
+    - name: Deploy with Nginx
       run: |
-        pkill serve || true
-        nohup serve -s build -l 3000 > /dev/null 2>&1 &
+        sudo rm -rf /var/www/html/*
+        sudo cp -r build/* /var/www/html/
+        sudo chown -R www-data:www-data /var/www/html
+        sudo systemctl reload nginx
+        
+    - name: Health check
+      run: |
         sleep 5
-        curl -f http://localhost:3000 || exit 1
+        curl -f http://localhost || exit 1
