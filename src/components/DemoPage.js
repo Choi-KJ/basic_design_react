@@ -82,7 +82,7 @@ const DemoPage = () => {
     {/* Hero Section */}
     <section style={{ marginBottom: 48 }}>
       <div>
-       <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>CI/CD테스트(nginx서버로변경)</h3>
+       <h3 style={{ fontSize: "14px", fontWeight: 500, marginBottom: 12, color: "#8a8f98" }}>CI/CD테스트(nginx서버로변경)Feature>develop 브랜치 머지</h3>
 
       </div>
       <div style={{ padding: "0 32px" }}>
